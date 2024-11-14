@@ -64,7 +64,7 @@ const images = [
   },
 ];
 
-const createGallery = (images) => {
+const createGallery = images => {
   const galleryList = document.querySelector('.gallery');
   const fragment = document.createDocumentFragment();
 
@@ -94,7 +94,15 @@ const createGallery = (images) => {
 createGallery(images);
 
 const galleryList = document.querySelector('.gallery');
-galleryList.addEventListener('click', (event) => {
-    const image = event.target;
-    console.log(image.getAttribute('data-source'));
+galleryList.addEventListener('click', event => {
+  const image = event.target;
+
+  if (!image.isEqualNode(event.currentTarget)) {
+    const source =
+      image.getAttribute('data-source') ?? 'assets/images/image.png';
+    const instance = basicLightbox.create(`
+      <img src="${source}" width="800" height="600">
+    `);
+    instance.show();
+  }
 });
